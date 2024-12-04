@@ -18,4 +18,10 @@ wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal
 NYXscan -l 192.168.1.X -p 443
 ```
 
+![](1.png)
+
+![](2.png)
+
+![](3.png)
+
 ---
