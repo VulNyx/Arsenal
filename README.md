@@ -12,8 +12,8 @@ Welcome to **Arsenal**, this repository is a collection of tools created by the 
 
 Below is a list of the tools included in this repository. Click on a tool to navigate to its folder and documentation.
 
-- **[NYXscan](https://github.com/VulNyx/Arsenal/tree/main/NYXscan)** | Fast and deep port scanner that makes initial enumeration of a target easy.
-- **[WPgen](https://github.com/VulNyx/Arsenal/tree/main/WPgen)** | Automatic malicious plugin generator for WordPress. 
+- **[NYXscan](https://github.com/VulNyx/Arsenal/tree/main/NYXscan)** - Fast and deep port scanner that makes initial enumeration of a target easy.
+- **[WPgen](https://github.com/VulNyx/Arsenal/tree/main/WPgen)** - Automatic malicious plugin generator for WordPress. 
 
 _(Add new tools here as the repository grows!)_
 
