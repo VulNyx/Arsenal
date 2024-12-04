@@ -1,6 +1,6 @@
 # Arsenal
 
-![](/banner.png)
+![](/assets/banner.png)
 
 ---
 
