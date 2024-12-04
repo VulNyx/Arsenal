@@ -12,12 +12,6 @@
 wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal/refs/heads/main/WPgen/WPgen" && chmod +x WPgen
 ```
 
-## Download & Install (PATH)
-
-```sh
-wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal/refs/heads/main/NYXscan/NYXscan" -O /usr/bin/NYXscan && chmod +x /usr/bin/NYXscan
-```
-
 ## Usage
 
 ```sh
