@@ -1,0 +1,112 @@
+#!/bin/bash
+
+readonly RED="\e[91m"
+readonly GREEN="\e[92m"
+readonly YELLOW="\e[93m"
+readonly BLUE="\e[94m"
+readonly WHITE="\e[97m"
+readonly END="\e[0m"
+readonly FOLDER=$(pwd)
+readonly TMPFOLDER="/tmp"
+readonly SEPARATOR="────────────────────────────────────────────────────────────────────────"
+
+function banner(){
+  echo -e "${GREEN} __   _ __   __ _     _ ${RED} _______ _______ _______ __   _${END}"
+  echo -e "${GREEN} | \  |   \_/    \___/  ${RED} |______ |       |_____| | \  |${END}"
+  echo -e "${GREEN} |  \_|    |    _/   \_ ${RED} ______| |_____  |     | |  \_|${END}"
+  echo -e "\n Created: VulNyx™                       Version: v1.0.0"
+  echo -e "${SEPARATOR}"
+}
+
+function help(){
+  echo -e "\n ❓  Usage: NYXscan [OPTIONS]\n"
+  echo -e " 🌐  Fast & deep port scanner for initial enumeration of a target.\n"
+  echo -e " 📋  Options:"
+  echo -e "       -t <TARGET(IP/DOMAIN)>   Specify the target IP or domain to scan."
+  echo -e "       -h                       Display this help message and exit.\n"
+  echo -e " 💡  Examples:"
+  echo -e "       NYXscan -t 192.168.1.2   Scan the target from an IP address."
+  echo -e "       NYXscan -t domain.nyx    Scan the target from an domain."
+  echo -e "       NYXscan -h               Show this help message.\n"
+  echo -e "${SEPARATOR}\n"
+}
+
+function targetIP(){
+  echo -e " 🎯  Target (IP)            │ ${YELLOW}${TARGET}${END}"
+}
+
+function targetTTL(){
+  TTL=$(timeout 0.1 ping -c1 "${TARGET}" 2>/dev/null | grep -oP 'ttl=\K[0-9]+')
+  if [ -n "${TTL}" ]; then
+    if [ "${TTL}" -eq 63 ] || [ "${TTL}" -eq 64 ]; then
+      echo -e " 🖥️  TimeToLive (TTL)       │ ${RED}${TTL}${END}"
+      echo -e " 🐧  Operating System (OS)  │ ${RED}Linux${END}"
+    elif [ "${TTL}" -eq 127 ] || [ "${TTL}" -eq 128 ]; then
+      echo -e " 🖥️  TimeToLive (TTL)       │ ${RED}${TTL}${END}"
+      echo -e " 🪟  Operating System       │ ${RED}Windows${END}"
+    else
+      echo -e " 🖥️  TimeToLive (TTL)       │ ${RED}${TTL}${END}"
+      echo -e " ❓  Operating System       │ ${RED}Not Detected${END}"
+    fi
+  else
+    echo -e " 🖥️  TimeToLive (TTL)       │ ${RED}Not Detected${END}"
+    echo -e " ❓  Operating System       │ ${RED}Not Detected${END}"
+  fi
+}
+
+function targetPING(){
+  if timeout 0.1 ping -c1 "$TARGET" > /dev/null 2>&1; then
+    echo -e " ⬆️  Ping (ICMP)            │ ${GREEN}UP${END}"
+    targetTTL
+  else
+    echo -e " ⬇️  Ping (ICMP)            │ ${RED}DOWN${END}"
+    targetTTL
+  fi
+}
+
+function nmapPORTS(){
+  OPENPORTS=$(nmap -n -Pn -sS -p- --min-rate="5000" ${TARGET} -oN ${TMPFOLDER}/${TARGET}.tmp)
+  GETPORTS=$(grep -oP '\d{1,5}/tcp' ${TMPFOLDER}/${TARGET}.tmp | cut -d '/' -f 1 | xargs | tr ' ' ',' | tr -d '\n')
+  echo -e " 🔎  Open Ports (-sS|SYN)   │ ${GREEN}${GETPORTS}${END}"
+}
+
+function nmapSCAN(){
+  echo -e " 💥  Nmap Scan (-sVC)       │ ⬇️"
+  echo -e "${SEPARATOR}"
+  SCAN=$(nmap -n -Pn -sVC -p${GETPORTS} ${TARGET} -oN ${FOLDER}/${TARGET}.log)
+  /bin/grep -A 500 "PORT" ${FOLDER}/${TARGET}.log | /bin/head -n -3 | /bin/batcat -n -l java
+  echo -e "${SEPARATOR}"
+  echo -e " 📖  Saved Log              | ${YELLOW}${FOLDER}/${GREEN}${TARGET}.log${END}"
+  echo -e "${SEPARATOR}\n"
+}
+
+function dependencies(){
+  which nmap &>/dev/null
+  if [ "$(echo $?)" != "0" ]; then
+    apt install -y nmap &>/dev/null
+  fi
+
+  which bat &>/dev/null
+  if [ "$(echo $?)" != "0" ]; then
+    apt install -y bat &>/dev/null
+  fi
+}
+
+while getopts ":t:" ARG; do
+  case ${ARG} in
+    t) TARGET=${OPTARG}; let parameter_counter+=1 ;;
+  esac
+done
+
+if [[ -n "${TARGET}" ]]; then
+  banner
+  dependencies
+  targetIP
+  targetPING
+  nmapPORTS
+  nmapSCAN
+else
+  banner
+  help
+  exit 0
+fi
