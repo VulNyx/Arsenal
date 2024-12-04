@@ -12,7 +12,7 @@ Welcome to **Arsenal**, this repository is a collection of tools created by the 
 
 Below is a list of the tools included in this repository. Click on a tool to navigate to its folder and documentation.
 
-- **[NYXscan](./Tool1/)**  
+- **[NYXscan](https://github.com/VulNyx/Arsenal/tree/main/NYXscan)**  
    Fast and deep port scanner that makes initial enumeration of a target easy.
 
 _(Add new tools here as the repository grows!)_
