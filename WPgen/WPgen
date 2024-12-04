@@ -50,7 +50,7 @@ cat <<EOF > plugin.php
 <?php
 
 /**
-* Plugin Name: WPGen
+* Plugin Name: WPgen
 * Plugin URI: http://127.0.0.1
 * Description: Arsenal
 * Version: 1.0
