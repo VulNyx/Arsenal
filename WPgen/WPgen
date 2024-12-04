@@ -46,7 +46,7 @@ function attackerInfo(){
 function createPlugin(){
   echo -e " ❗ Creating   │ plugin.php${END}"
 
-cat <<EOF > plugin.php
+/bin/cat <<EOF > plugin.php
 <?php
 
 /**
