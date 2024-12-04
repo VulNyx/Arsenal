@@ -15,7 +15,7 @@ wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal
 ## Usage
 
 ```sh
-NYXscan -l 192.168.1.X -p 443
+WPgen -l 192.168.1.X -p 443
 ```
 
 ![](1.png)
