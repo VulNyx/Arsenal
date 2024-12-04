@@ -29,13 +29,13 @@ It performs basic host checks, os detection, and a two-stage port scanning proce
 ## Download
 
 ```sh
-wget --no-check-certificate -q "https://raw.githubusercontent.com/d4t4s3c/NYXscan/main/NYXscan" && chmod +x NYXscan
+wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal/refs/heads/main/NYXscan/NYXscan" && chmod +x NYXscan
 ```
 
 ## Download & Install (PATH)
 
 ```sh
-wget --no-check-certificate -q "https://raw.githubusercontent.com/d4t4s3c/NYXscan/main/NYXscan" -O /usr/bin/NYXscan && chmod +x /usr/bin/NYXscan
+wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal/refs/heads/main/NYXscan/NYXscan" -O /usr/bin/NYXscan && chmod +x /usr/bin/NYXscan
 ```
 
 ## Usage
