@@ -17,7 +17,7 @@ Below is a list of the tools included in this repository. Click on a tool to nav
 
 _(Add new tools here as the repository grows!)_
 
-## [Contributing](/CONTRIBUTING.MD)
+## [Contributing](/CONTRIBUTING.md)
 
 We welcome contributions to expand Arsenal! To contribute:
 1. Fork the repository.
