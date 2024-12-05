@@ -21,7 +21,7 @@ wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal
 ## Usage
 
 ```sh
-ZIP -f <FILE> -w <WORDLIST>
+ZIPcrack -f <FILE> -w <WORDLIST>
 ```
 
 ---
