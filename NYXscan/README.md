@@ -3,7 +3,7 @@
 #### **NYXscan** is a fast and in-depth port scanner that makes initial enumeration of a target easy.  
 It performs basic host checks, os detection, and a two-stage port scanning process to deliver comprehensive results.
 
-![](screenshot.png)
+![](/NYXscan/img/screenshot.png)
 
 ---
 
