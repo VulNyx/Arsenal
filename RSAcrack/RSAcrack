@@ -1,0 +1,95 @@
+#!/bin/bash
+
+readonly RED="\e[91m"
+readonly GREEN="\e[92m"
+readonly YELLOW="\e[93m"
+readonly BLUE="\e[94m"
+readonly WHITE="\e[97m"
+readonly END="\e[0m"
+readonly SEPARATOR="─────────────────────────────"
+
+trap ctrl_c INT
+
+function dependencies(){
+  which ssh-keygen &>/dev/null
+  if [ "$(echo $?)" != "0" ]; then
+    apt install -y openssh-client &>/dev/null
+  fi
+}
+
+function banner(){
+  echo
+  echo -e "${GREEN} ╭━━━┳━━━┳━━━╮          ╭╮  ${END}"
+  echo -e "${GREEN} ┃╭━╮┃╭━╮┃╭━╮┃          ┃┃  ${END}"
+  echo -e "${GREEN} ┃╰━╯┃╰━━┫┃ ┃┣━━┳━┳━━┳━━┫┃╭╮${END}"
+  echo -e "${GREEN} ┃╭╮╭┻━━╮┃╰━╯┃╭━┫╭┫╭╮┃╭━┫╰╯╯${END}"
+  echo -e "${GREEN} ┃┃┃╰┫╰━╯┃╭━╮┃╰━┫┃┃╭╮┃╰━┫╭╮╮${END}"
+  echo -e "${GREEN} ╰╯╰━┻━━━┻╯ ╰┻━━┻╯╰╯╰┻━━┻╯╰╯${END}"
+  echo -e " code: ${YELLOW}VulNyx™ ${END}  ver: ${YELLOW}v1.0.0${END}"
+  echo -e "${SEPARATOR}"
+}
+
+function help(){
+  echo -e "\n ❓  Usage: RSAcrack [OPTIONS]\n"
+  echo -e " 🌐  Get the passphrase of a private key (id_rsa).\n"
+  echo -e " 📋  Options:"
+  echo -e "       -k <KEY>       Specify the path where the id_rsa key is located."
+  echo -e "       -w <WORDLIST>  Specify the path where the wordlist is located."
+  echo -e "       -h             Display this help message and exit.\n"
+  echo -e " 💡  Examples:"
+  echo -e "       RSAcrack -k id_rsa -w rockyou.txt"
+  echo -e "       RSAcrack -h \n"
+  echo -e "${SEPARATOR}\n"
+}
+
+function info(){
+  echo -e "🎯 Cracking | ${BLUE}${KEY}${END}"
+  echo -e "📖 Wordlist | ${BLUE}${WORDLIST}${END}"
+}
+
+function ctrl_c(){
+  echo
+  tput cnorm
+  exit 1
+}
+
+while getopts ":k:w:" ARG; do
+  case ${ARG} in
+    k) KEY=$OPTARG; let parameter_counter+=1 ;;
+    w) WORDLIST=$OPTARG; let parameter_counter+=1 ;;
+  esac
+done
+
+if [[ -n "${KEY}" && -n "${WORDLIST}" ]]; then
+  dependencies
+  chmod 600 ${KEY} &>/dev/null
+  banner
+  info
+else
+  banner
+  help
+  exit 0
+fi
+
+LINES=$(wc -l ${WORDLIST})
+REGEX="([0-9]+).${WORDLIST}"
+[[ ${LINES} =~ ${REGEX} ]]
+SIZ="${BASH_REMATCH[1]}"
+while IFS= read -r PASSWORD; do
+  LINE=$((LINE + 1))
+  PROGRESS=$((LINE * 100 / SIZ))
+  echo -ne "\e[?25l\r\033[K🔎 Status   | ${YELLOW}${LINE}/${SIZ}/${PROGRESS}%/${PASSWORD}${END}"
+  ssh-keygen -y -f ${KEY} -P ${PASSWORD} &>/dev/null
+  if [ $? -eq 0 ]; then
+    echo -e "\n💥 Password | $GREEN$PASSWORD$RED$END"
+    echo -e "${SEPARATOR}\n"
+    sleep 2
+    tput cnorm
+    exit 0
+  fi
+done < ${WORDLIST}
+echo -e "\n❗ Fuck!    | ${RED}Password not found${END}"
+echo -e "${SEPARATOR}\n"
+sleep 2
+tput cnorm
+exit 0
