@@ -9,13 +9,13 @@
 ## Download
 
 ```sh
-wget --no-check-certificate -q "" && chmod +x ZIPcrack
+wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal/refs/heads/main/ZIPcrack/ZIPcrack" && chmod +x ZIPcrack
 ```
 
 ## Download & Install (PATH)
 
 ```cmd
-wget --no-check-certificate -q "" -O /usr/bin/ZIPcrack && chmod +x /usr/bin/ZIPcrack
+wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal/refs/heads/main/ZIPcrack/ZIPcrack" -O /usr/bin/ZIPcrack && chmod +x /usr/bin/ZIPcrack
 ```
 
 ## Usage
