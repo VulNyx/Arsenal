@@ -2,7 +2,7 @@
 
 #### Get the `passphrase` of a private key (`id_rsa`).
 
-![](/RSAcrack/img/screenshot.png)
+![](/RSAcrack/img/img.png)
 
 ---
 
