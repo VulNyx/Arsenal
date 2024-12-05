@@ -10,15 +10,15 @@
 
 ```sh
 cd /dev/shm
-wget --no-check-certificate -q ""
+wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal/refs/heads/main/suForce/suForce"
 chmod +x suForce
 ```
 
 ## Download Wordlist (Optional)
 
 ```sh
-wget --no-check-certificate -q ""
-wget --no-check-certificate -q ""
+wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal/refs/heads/main/suForce/techyou.txt"
+wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal/refs/heads/main/suForce/top12000.txt"
 ```
 
 ## Usage
