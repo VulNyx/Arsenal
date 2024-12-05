@@ -2,7 +2,7 @@
 
 #### **WPgen** is an automatic malicious plugin generator for **WordPress**, get a reverse shell in a simple and fast way.
 
-![](/WPgen/img/screenshot.png)
+![](/WPgen/img/img.png)
 
 ---
 
