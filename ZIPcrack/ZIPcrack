@@ -1,0 +1,95 @@
+#!/bin/bash
+
+readonly RED="\e[91m"
+readonly GREEN="\e[92m"
+readonly YELLOW="\e[93m"
+readonly BLUE="\e[94m"
+readonly WHITE="\e[97m"
+readonly END="\e[0m"
+readonly SEPARATOR="─────────────────────────────────────────────"
+
+trap ctrl_c INT
+
+function dependencies(){
+  which 7z &>/dev/null
+  if [ "$(echo $?)" != "0" ]; then
+    apt install -y p7zip-full &>/dev/null
+  fi
+}
+
+function banner(){
+  echo -e "${GREEN}  ___________ _____                    _      ${END}"
+  echo -e "${GREEN} |___  /_   _|  __ \                  | |     ${END}"
+  echo -e "${GREEN}    / /  | | | |__) |__ _ __ __ _  ___| | __  ${END}"
+  echo -e "${GREEN}   / /   | | |  ___/ __| '__/ _\` |/ __| |/ / ${END}"
+  echo -e "${GREEN}  / /__ _| |_| |  | (__| | | (_| | (__|   <   ${END}"
+  echo -e "${GREEN} /_____|_____|_|   \___|_|  \__,_|\___|_|\_\\ ${END}"
+  echo -e "${SEPARATOR}"
+  echo -e " Created: ${YELLOW}VulNyx™${END}            Version: ${YELLOW}v1.0.0  ${END}"
+  echo -e "${SEPARATOR}"
+}
+
+function help(){
+  echo -e "\n ❓  Usage: ZIPcrack [OPTIONS]\n"
+  echo -e " 🌐  Get the password of a compressed ZIP file.\n"
+  echo -e " 📋  Options:"
+  echo -e "       -f <FILE>      Specify the path where the compressed ZIP file is located."
+  echo -e "       -w <WORDLIST>  Specify the path where the wordlist is located."
+  echo -e "       -h             Display this help message and exit.\n"
+  echo -e " 💡  Examples:"
+  echo -e "       ZIPcrack -f file.zip -w rockyou.txt"
+  echo -e "       ZIPcrack -h \n"
+  echo -e "${SEPARATOR}\n"
+}
+
+function info(){
+  echo -e " 🎯 Cracking  | ${BLUE}${ZIPFILE}${END}"
+  echo -e " 📖 Wordlist  | ${BLUE}${WORDLIST}${END}"
+}
+
+function ctrl_c(){
+  echo
+  tput cnorm
+  exit 1
+}
+
+while getopts ":f:w:" ARG; do
+  case ${ARG} in
+    f) ZIPFILE=$OPTARG; let parameter_counter+=1 ;;
+    w) WORDLIST=$OPTARG; let parameter_counter+=1 ;;
+  esac
+done
+
+if [[ -n "${ZIPFILE}" && -n "${WORDLIST}" ]]; then
+  dependencies
+  chmod 600 ${KEY} &>/dev/null
+  banner
+  info
+else
+  banner
+  help
+  exit 0
+fi
+
+LINES=$(wc -l ${WORDLIST})
+REGEX="([0-9]+).${WORDLIST}"
+[[ ${LINES} =~ ${REGEX} ]]
+SIZ="${BASH_REMATCH[1]}"
+while IFS= read -r PASSWORD; do
+  LINE=$((LINE + 1))
+  PROGRESS=$((LINE * 100 / SIZ))
+  echo -ne "\e[?25l\r\033[K 🔎 Status    | ${YELLOW}${LINE}/${SIZ}/${PROGRESS}%/${PASSWORD}${END}"
+  7z t -p${PASSWORD} ${ZIPFILE} &>/dev/null
+  if [ $? -eq 0 ]; then
+    echo -e "\n 💥 Password  | $GREEN$PASSWORD$RED$END"
+    echo -e "${SEPARATOR}\n"
+    sleep 2
+    tput cnorm
+    exit 0
+  fi
+done < ${WORDLIST}
+echo -e "\n ❗ Fuck!     | ${RED}Password not found${END}"
+echo -e "${SEPARATOR}\n"
+sleep 2
+tput cnorm
+exit 0
