@@ -32,25 +32,26 @@ function help(){
 }
 
 function targetIP(){
-  echo -e " 🎯  Target (IP)            │ ${YELLOW}${TARGET}${END}"
+  echo -e " 🎯  Target (IP/DOMAIN)     │ ${YELLOW}${TARGET}${END}"
 }
 
 function targetTTL(){
-  TTL=$(timeout 0.1 ping -c1 "${TARGET}" 2>/dev/null | grep -oP 'ttl=\K[0-9]+')
+  #TTL=$(timeout 0.1 ping -c1 "${TARGET}" 2>/dev/null | grep -oP 'ttl=\K[0-9]+')
+  TTL=""
   if [ -n "${TTL}" ]; then
     if [ "${TTL}" -eq 63 ] || [ "${TTL}" -eq 64 ]; then
       echo -e " 🖥️  TimeToLive (TTL)       │ ${RED}${TTL}${END}"
       echo -e " 🐧  Operating System (OS)  │ ${RED}Linux${END}"
     elif [ "${TTL}" -eq 127 ] || [ "${TTL}" -eq 128 ]; then
       echo -e " 🖥️  TimeToLive (TTL)       │ ${RED}${TTL}${END}"
-      echo -e " 🪟  Operating System       │ ${RED}Windows${END}"
+      echo -e " 🪟  Operating System (OS)  │ ${RED}Windows${END}"
     else
       echo -e " 🖥️  TimeToLive (TTL)       │ ${RED}${TTL}${END}"
-      echo -e " ❓  Operating System       │ ${RED}Not Detected${END}"
+      echo -e " ❓  Operating System (OS)  │ ${RED}Not Detected${END}"
     fi
   else
     echo -e " 🖥️  TimeToLive (TTL)       │ ${RED}Not Detected${END}"
-    echo -e " ❓  Operating System       │ ${RED}Not Detected${END}"
+    echo -e " ❓  Operating System (OS)  │ ${RED}Not Detected${END}"
   fi
 }
 
