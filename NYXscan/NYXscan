@@ -36,8 +36,7 @@ function targetIP(){
 }
 
 function targetTTL(){
-  #TTL=$(timeout 0.1 ping -c1 "${TARGET}" 2>/dev/null | grep -oP 'ttl=\K[0-9]+')
-  TTL=""
+  TTL=$(timeout 0.1 ping -c1 "${TARGET}" 2>/dev/null | grep -oP 'ttl=\K[0-9]+')
   if [ -n "${TTL}" ]; then
     if [ "${TTL}" -eq 63 ] || [ "${TTL}" -eq 64 ]; then
       echo -e " 🖥️  TimeToLive (TTL)       │ ${RED}${TTL}${END}"
