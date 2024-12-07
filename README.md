@@ -35,6 +35,3 @@ We welcome contributions to expand Arsenal! To contribute:
 > All tools in this repository are intended for educational, ethical purposes only. The [VulNyx](https://vulnyx.com) team is not responsible for any misuse or damage caused by the improper use of these tools to third-party systems or infrastructures.
 
 ---
-
-Happy Hacking!  
---The VulNyx Team--
