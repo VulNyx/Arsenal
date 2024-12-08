@@ -25,7 +25,7 @@ function banner(){
   echo -e "${GREEN}  / /__ _| |_| |  | (__| | | (_| | (__|   <   ${END}"
   echo -e "${GREEN} /_____|_____|_|   \___|_|  \__,_|\___|_|\_\\ ${END}"
   echo -e "${SEPARATOR}"
-  echo -e " Created: ${YELLOW}VulNyx™${END}            Version: ${YELLOW}v1.0.0  ${END}"
+  echo -e " Created: ${YELLOW}VulNyx™${END}            Version: ${YELLOW}v1.0.0${END}"
   echo -e "${SEPARATOR}"
 }
 
