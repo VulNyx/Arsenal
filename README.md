@@ -15,6 +15,7 @@ Below is a list of the tools included in this repository. Click on a tool to nav
 - **[NYXscan](https://github.com/VulNyx/Arsenal/tree/main/NYXscan)** - Fast & deep port scanner that makes initial enumeration of a target easy.
 - **[WPgen](https://github.com/VulNyx/Arsenal/tree/main/WPgen)** - Automatic malicious plugin generator for WordPress.
 - **[RSAcrack](https://github.com/VulNyx/Arsenal/tree/main/RSAcrack)** - Get the passphrase of a private key (id_rsa).
+- **[ZIPcrack](https://github.com/VulNyx/Arsenal/tree/main/ZIPcrack)** - Get the password of a compressed ZIP file.
 - **[suForce](https://github.com/VulNyx/Arsenal/tree/main/suForce)** - Obtains a user's password by abusing the su binary.
 
 _(Add new tools here as the repository grows!)_
