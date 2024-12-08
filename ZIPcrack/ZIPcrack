@@ -62,7 +62,6 @@ done
 
 if [[ -n "${ZIPFILE}" && -n "${WORDLIST}" ]]; then
   dependencies
-  chmod 600 ${KEY} &>/dev/null
   banner
   info
 else
