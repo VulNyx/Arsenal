@@ -17,6 +17,7 @@ Below is a list of the tools included in this repository. Click on a tool to nav
 - **[RSAcrack](https://github.com/VulNyx/Arsenal/tree/main/RSAcrack)** - Get the passphrase of a private key (id_rsa).
 - **[ZIPcrack](https://github.com/VulNyx/Arsenal/tree/main/ZIPcrack)** - Get the password of a compressed ZIP file.
 - **[suForce](https://github.com/VulNyx/Arsenal/tree/main/suForce)** - Obtains a user's password by abusing the su binary.
+- **[RBF](https://github.com/VulNyx/Arsenal/tree/main/RBF)** - Get Redis password by brute force attack.
 
 _(Add new tools here as the repository grows!)_
 
