@@ -9,13 +9,13 @@
 ## Download
 
 ```sh
-wget --no-check-certificate -q "" && chmod +x LFIexec
+wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal/refs/heads/main/LFIexec/LFIexec" && chmod +x LFIexec
 ```
 
 ## Download & Install (PATH)
 
 ```cmd
-wget --no-check-certificate -q "" -O /usr/bin/RBF && chmod +x /usr/bin/LFIexec
+wget --no-check-certificate -q https://raw.githubusercontent.com/VulNyx/Arsenal/refs/heads/main/LFIexec/LFIexec"" -O /usr/bin/RBF && chmod +x /usr/bin/LFIexec
 ```
 
 ## Usage
