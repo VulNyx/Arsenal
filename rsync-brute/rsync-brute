@@ -1,0 +1,100 @@
+#!/bin/bash
+
+readonly RED="\e[91m"
+readonly GREEN="\e[92m"
+readonly YELLOW="\e[93m"
+readonly BLUE="\e[94m"
+readonly WHITE="\e[97m"
+readonly END="\e[0m"
+readonly SEPARATOR="────────────────────────────"
+
+trap ctrl_c INT
+
+function dependencies(){
+  which rsync &>/dev/null
+  if [ "$(echo $?)" != "0" ]; then
+    apt install -y rsync &>/dev/null
+  fi
+}
+
+function banner(){
+  echo -e "${GREEN}  _ __ ___ _   _ _ __   ___ ${END}"
+  echo -e "${GREEN} | '__/ __| | | | '_ \ / __|${END}"
+  echo -e "${GREEN} | |  \__ \ |_| | | | | (__ ${END}"
+  echo -e "${GREEN} |_|  |___/\__, |_| |_|\___|${END}"
+  echo -e "${RED}  _        ${GREEN} |___/ ${RED} _${END}"
+  echo -e "${RED} | |__  _ __ _   _| |_ ___  ${END}"
+  echo -e "${RED} | '_ \| '__| | | | __/ _ \ ${END}"
+  echo -e "${RED} | |_) | |  | |_| | ||  __/ ${END}"
+  echo -e "${RED} |_.__/|_|   \__,_|\__\___| ${END}"
+  echo -e "${SEPARATOR}"
+  echo -e " code: ${YELLOW}VulNyx™${END}  ver: ${YELLOW}v1.0.0${END}"
+  echo -e "${SEPARATOR}"
+}
+
+function help(){
+  echo -e "\n ❓  Usage: rsync-brute [OPTIONS]\n"
+  echo -e " 🌐  Discover hidden rsync resources when [list=no] mode is enabled.\n"
+  echo -e " 📋  Options:"
+  echo -e "       -t <TARGET>    Specify the target IP."
+  echo -e "       -p <PORT>      Specify the target port."
+  echo -e "       -w <WORDLIST>  Specify the path where the wordlist is located."
+  echo -e "       -h             Display this help message and exit.\n"
+  echo -e " 💡  Examples:"
+  echo -e "       rsync-brute -t 192.168.1.2 -p 873 -w directory-list-2.3-medium.txt"
+  echo -e "       rsync-brute -h \n"
+  echo -e "${SEPARATOR}\n"
+}
+
+function info(){
+  echo -e " 🎯 Target   | ${BLUE}${TARGET}${WHITE}:${BLUE}${PORT}${END}"
+  echo -e " 📖 Wordlist | ${BLUE}${WORDLIST}${END}"
+}
+
+function ctrl_c(){
+  echo
+  tput cnorm
+  exit 1
+}
+
+while getopts ":t:p:w:" ARG; do
+  case ${ARG} in
+    t) TARGET=$OPTARG; let parameter_counter+=1 ;;
+    p) PORT=$OPTARG; let parameter_counter+=1 ;;
+    w) WORDLIST=$OPTARG; let parameter_counter+=1 ;;
+  esac
+done
+
+if [[ -n "${TARGET}" && -n "${PORT}" && -n "${WORDLIST}" ]]; then
+  dependencies
+  banner
+  info
+else
+  banner
+  help
+  exit 0
+fi
+
+LINES=$(wc -l ${WORDLIST})
+REGEX="([0-9]+).${WORDLIST}"
+[[ ${LINES} =~ ${REGEX} ]]
+SIZ="${BASH_REMATCH[1]}"
+while IFS= read -r RESOURCE; do
+  [[ -z ${RESOURCE} ]] && continue
+  LINE=$((LINE + 1))
+  PROGRESS=$((LINE * 100 / SIZ))
+  echo -ne "\e[?25l\r\033[K 🔎 Status   | ${YELLOW}${LINE}/${SIZ}/${PROGRESS}%/${RESOURCE}${END}"
+  rsync ${TARGET}::${RESOURCE} --port=${PORT} &>/dev/null
+  if [ $? -eq 0 ]; then
+    echo -e "\n 💥 Resource | ${GREEN}${RESOURCE}${END}"
+    echo -e "${SEPARATOR}\n"
+    sleep 2
+    tput cnorm
+    exit 0
+  fi
+done < ${WORDLIST}
+echo -e "\n ❗ Fuck!    | ${RED}Resource not found${END}"
+echo -e "${SEPARATOR}\n"
+sleep 2
+tput cnorm
+exit 0
