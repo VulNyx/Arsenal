@@ -9,13 +9,13 @@
 ## Download
 
 ```sh
-wget --no-check-certificate -q "" && chmod +x rsync-brute
+wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal/refs/heads/main/rsync-brute/rsync-brute" && chmod +x rsync-brute
 ```
 
 ## Download & Install (PATH)
 
 ```cmd
-wget --no-check-certificate -q "" -O /usr/bin/rsync-brute && chmod +x /usr/bin/rsync-brute
+wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal/refs/heads/main/rsync-brute/rsync-brute" -O /usr/bin/rsync-brute && chmod +x /usr/bin/rsync-brute
 ```
 
 ## Usage
