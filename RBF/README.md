@@ -21,7 +21,7 @@ wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal
 ## Usage
 
 ```sh
-RBF -t <TARJET> -p <PORT> -w <WORDLIST>
+RBF -t <TARGET> -p <PORT> -w <WORDLIST>
 ```
 
 ---
