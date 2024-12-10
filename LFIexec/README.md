@@ -1,6 +1,6 @@
 # **LFIexec**
 
-#### Executing commands on a remote system by abusing `PHP chain filters` in an `LFI`.
+#### Executing commands on a remote system by abusing `PHP filter chains` in an `LFI`.
 
 ![](/LFIexec/img/screenshot.png)
 
