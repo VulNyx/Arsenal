@@ -36,6 +36,12 @@ We welcome contributions to expand Arsenal! To contribute:
    - Any required scripts, configurations, or dependencies.
 4. Submit a pull request for review.
 
+## Top contributors:
+
+<a href="https://github.com/vulnyx/arsenal/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=vulnyx/arsenal" />
+</a>
+
 ## Disclaimer
 
 > [!WARNING]
