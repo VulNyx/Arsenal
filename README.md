@@ -1,5 +1,8 @@
 # Arsenal
 
+![GitHub stars](https://img.shields.io/github/stars/VulNyx/Arsenal?logoColor=yellow) ![GitHub forks](https://img.shields.io/github/forks/VulNyx/Arsenal?logoColor=purple) ![GitHub watchers](https://img.shields.io/github/watchers/VulNyx/Arsenal?logoColor=green)</br>
+![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/VulNyx/Arsenal) ![GitHub contributors](https://img.shields.io/github/contributors/VulNyx/Arsenal)
+
 ![](/assets/banner.png)
 
 ---
