@@ -7,11 +7,11 @@
 
 ---
 
-## Overview
+### Overview
 
 Welcome to **Arsenal**, this repository is a collection of tools created by the [VulNyx](https://vulnyx.com) team for offensive security.
 
-## Tools
+### Tools
 
 Below is a list of the tools included in this repository. Click on a tool to navigate to its folder and documentation.
 
@@ -26,7 +26,7 @@ Below is a list of the tools included in this repository. Click on a tool to nav
 
 _(Add new tools here as the repository grows!)_
 
-## [Contributing](/CONTRIBUTING.md)
+### [Contributing](/CONTRIBUTING.md)
 
 We welcome contributions to expand Arsenal! To contribute:
 1. Fork the repository.
@@ -36,17 +36,17 @@ We welcome contributions to expand Arsenal! To contribute:
    - Any required scripts, configurations, or dependencies.
 4. Submit a pull request for review.
 
-### Top contributors:
+#### Top contributors:
 
 <a href="https://github.com/vulnyx/arsenal/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=vulnyx/arsenal" />
 </a>
 
-## Donate
+### Donate
 
 [![Buy Me a Coffee](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/vulnyx)
 
-## Disclaimer
+### Disclaimer
 
 > [!WARNING]
 > All tools in this repository are intended for educational, ethical purposes only. The [VulNyx](https://vulnyx.com) team is not responsible for any misuse or damage caused by the improper use of these tools to third-party systems or infrastructures.
