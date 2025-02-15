@@ -15,7 +15,7 @@ wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal
 ## Download & Install (PATH)
 
 ```cmd
-wget --no-check-certificate -q https://raw.githubusercontent.com/VulNyx/Arsenal/refs/heads/main/LFIexec/LFIexec"" -O /usr/bin/LFIexec && chmod +x /usr/bin/LFIexec
+wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal/refs/heads/main/LFIexec/LFIexec" -O /usr/bin/LFIexec && chmod +x /usr/bin/LFIexec
 ```
 
 ## Usage
