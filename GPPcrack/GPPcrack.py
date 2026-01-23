@@ -23,7 +23,7 @@ cpassword_padded = cpassword + ("=" * padding)
 try:
     encrypted = base64.b64decode(cpassword_padded)
 except Exception:
-    print("[!] Error: cpassword no es Base64 válido")
+    print("[!] Error: cpassword is not valid Base64")
     sys.exit(1)
 
 cipher = AES.new(KEY, AES.MODE_CBC, IV)
@@ -31,7 +31,7 @@ decrypted = cipher.decrypt(encrypted)
 
 pad_len = decrypted[-1]
 if pad_len < 1 or pad_len > 16:
-    print("[!] Padding inválido")
+    print("[!] Invalid padding")
     sys.exit(1)
 
 decrypted = decrypted[:-pad_len]
@@ -39,7 +39,7 @@ decrypted = decrypted[:-pad_len]
 try:
     password = decrypted.decode("utf-16le")
 except UnicodeDecodeError:
-    print("[!] Error al decodificar UTF-16LE")
+    print("[!] Error decoding UTF-16LE")
     sys.exit(1)
 
 print(password)
