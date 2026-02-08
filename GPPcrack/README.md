@@ -7,7 +7,7 @@ Tool to decrypt passwords (**`cpassword`**) from [Group Policy Preferences (GPP)
 ### Download
 
 ```sh
-wget --no-check-certificate -q "[https:/](https://raw.githubusercontent.com/VulNyx/Arsenal/refs/heads/main/GPPcrack/GPPcrack.py)" && chmod +x GPPcrack.py
+wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal/refs/heads/main/GPPcrack/GPPcrack.py" && chmod +x GPPcrack.py
 ```
 
 ### Usage
