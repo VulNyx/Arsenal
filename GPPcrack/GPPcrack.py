@@ -5,7 +5,7 @@ import base64
 import sys
 
 if len(sys.argv) != 2:
-    print(f"Usage: {sys.argv[0]} <cpassword>")
+    print(f"\n[+] Usage: {sys.argv[0]} <cpassword>")
     sys.exit(1)
 
 cpassword = sys.argv[1].strip()
