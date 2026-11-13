@@ -15,3 +15,7 @@ wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal
 ```cmd
 python3 GPPcrack.py <cpassword>
 ```
+
+Invalid Base64 or ciphertext lengths produce an error instead of a traceback.
+To test these cases, run `python3 GPPcrack/test_invalid_input.py` from the
+repository root with the tool's Python dependency installed.

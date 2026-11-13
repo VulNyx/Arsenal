@@ -21,9 +21,13 @@ padding = (4 - len(cpassword) % 4) % 4
 cpassword_padded = cpassword + ("=" * padding)
 
 try:
-    encrypted = base64.b64decode(cpassword_padded)
+    encrypted = base64.b64decode(cpassword_padded, validate=True)
 except Exception:
     print("[!] Error: cpassword is not valid Base64")
+    sys.exit(1)
+
+if not encrypted or len(encrypted) % AES.block_size:
+    print("[!] Error: invalid ciphertext length")
     sys.exit(1)
 
 cipher = AES.new(KEY, AES.MODE_CBC, IV)
