@@ -1,11 +1,18 @@
 #!/usr/bin/python3
 
-from Cryptodome.Cipher import AES
 import base64
 import sys
 
 if len(sys.argv) != 2:
     print(f"\n[+] Usage: {sys.argv[0]} <cpassword>")
+    sys.exit(1)
+
+try:
+    from Cryptodome.Cipher import AES
+except ModuleNotFoundError as error:
+    if error.name != "Cryptodome":
+        raise
+    print("[!] Missing dependency. Install it with: python3 -m pip install pycryptodomex", file=sys.stderr)
     sys.exit(1)
 
 cpassword = sys.argv[1].strip()
