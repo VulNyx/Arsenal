@@ -45,4 +45,13 @@ NYXscan -t 192.168.1.X
 NYXscan -t domain.nyx
 ```
 
+If the initial scan finds no open TCP ports, NYXscan reports that result and
+skips the deep scan. If either Nmap scan fails, it exits with an error instead
+of reporting a successful log.
+
+## Test
+
+From the repository root, run `python3 NYXscan/test_scan_results.py`. The tests
+simulate Nmap and do not scan a network.
+
 ---

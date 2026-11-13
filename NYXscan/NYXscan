@@ -65,15 +65,21 @@ function targetPING(){
 }
 
 function nmapPORTS(){
-  OPENPORTS=$(nmap -n -Pn -sS -p- --min-rate="5000" ${TARGET} -oN ${TMPFOLDER}/${TARGET}.tmp)
-  GETPORTS=$(grep -oP '\d{1,5}/tcp' ${TMPFOLDER}/${TARGET}.tmp | cut -d '/' -f 1 | xargs | tr ' ' ',' | tr -d '\n')
+  if ! nmap -n -Pn -sS -p- --min-rate="5000" "${TARGET}" -oN "${TMPFOLDER}/${TARGET}.tmp" >/dev/null; then
+    echo "Error: initial Nmap scan failed." >&2
+    return 1
+  fi
+  GETPORTS=$(awk '$1 ~ /^[0-9]+\/tcp$/ && $2 == "open" { sub(/\/tcp$/, "", $1); printf "%s%s", sep, $1; sep="," }' "${TMPFOLDER}/${TARGET}.tmp")
   echo -e " 🔎  Open Ports (-sS|SYN)   │ ${GREEN}${GETPORTS}${END}"
 }
 
 function nmapSCAN(){
   echo -e " 💥  Nmap Scan (-sVC)       │ ⬇️"
   echo -e "${SEPARATOR}"
-  SCAN=$(nmap -n -Pn -sVC -p${GETPORTS} ${TARGET} -oN ${FOLDER}/${TARGET}.log)
+  if ! nmap -n -Pn -sVC "-p${GETPORTS}" "${TARGET}" -oN "${FOLDER}/${TARGET}.log" >/dev/null; then
+    echo "Error: deep Nmap scan failed." >&2
+    return 1
+  fi
   /bin/grep -A 500 "PORT" ${FOLDER}/${TARGET}.log | /bin/head -n -3 | /bin/batcat -n -l java
   echo -e "${SEPARATOR}"
   echo -e " 📖  Saved Log              | ${YELLOW}${FOLDER}/${GREEN}${TARGET}.log${END}"
@@ -103,8 +109,12 @@ if [[ -n "${TARGET}" ]]; then
   dependencies
   targetIP
   targetPING
-  nmapPORTS
-  nmapSCAN
+  nmapPORTS || exit 1
+  if [[ -z "${GETPORTS}" ]]; then
+    echo "No open TCP ports found; skipping the deep scan."
+    exit 0
+  fi
+  nmapSCAN || exit 1
 else
   banner
   help
