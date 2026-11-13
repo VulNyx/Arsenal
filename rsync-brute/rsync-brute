@@ -75,11 +75,8 @@ else
   exit 0
 fi
 
-LINES=$(wc -l ${WORDLIST})
-REGEX="([0-9]+).${WORDLIST}"
-[[ ${LINES} =~ ${REGEX} ]]
-SIZ="${BASH_REMATCH[1]}"
-while IFS= read -r RESOURCE; do
+SIZ=$(awk 'length { count++ } END { print count+0 }' "${WORDLIST}")
+while IFS= read -r RESOURCE || [[ -n ${RESOURCE} ]]; do
   [[ -z ${RESOURCE} ]] && continue
   LINE=$((LINE + 1))
   PROGRESS=$((LINE * 100 / SIZ))
@@ -92,7 +89,7 @@ while IFS= read -r RESOURCE; do
     tput cnorm
     exit 0
   fi
-done < ${WORDLIST}
+done < "${WORDLIST}"
 echo -e "\n ❗ Fuck!    | ${RED}Resource not found${END}"
 echo -e "${SEPARATOR}\n"
 sleep 2

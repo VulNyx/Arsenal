@@ -24,4 +24,12 @@ wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal
 rsync-brute -t <TARGET> -p <PORT> -w <WORDLIST>
 ```
 
+Quote a wordlist path containing spaces. Empty lines are skipped, and the
+final entry does not need a trailing newline.
+
+## Test
+
+From the repository root, run `bash rsync-brute/test-rsync-brute.sh`. The test
+uses a simulated rsync client and does not connect to a server.
+
 ---
