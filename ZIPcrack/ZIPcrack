@@ -11,9 +11,9 @@ readonly SEPARATOR="────────────────────
 trap ctrl_c INT
 
 function dependencies(){
-  which 7z &>/dev/null
-  if [ "$(echo $?)" != "0" ]; then
-    apt install -y p7zip-full &>/dev/null
+  if ! command -v 7z &>/dev/null; then
+    echo "Error: 7z is required. Install 7-Zip and make 7z available on PATH." >&2
+    return 1
   fi
 }
 
@@ -61,7 +61,7 @@ while getopts ":f:w:" ARG; do
 done
 
 if [[ -n "${ZIPFILE}" && -n "${WORDLIST}" ]]; then
-  dependencies
+  dependencies || exit 1
   banner
   info
 else
