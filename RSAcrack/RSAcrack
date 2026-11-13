@@ -73,7 +73,7 @@ done
 
 if [[ -n "${KEY}" && -n "${WORDLIST}" ]]; then
   dependencies
-  chmod 600 ${KEY} &>/dev/null
+  chmod 600 "${KEY}" &>/dev/null
   banner
   info
 else
@@ -82,15 +82,12 @@ else
   exit 0
 fi
 
-LINES=$(wc -l ${WORDLIST})
-REGEX="([0-9]+).${WORDLIST}"
-[[ ${LINES} =~ ${REGEX} ]]
-SIZ="${BASH_REMATCH[1]}"
-while IFS= read -r PASSWORD; do
+SIZ=$(awk 'END { print NR }' "${WORDLIST}")
+while IFS= read -r PASSWORD || [[ -n ${PASSWORD} ]]; do
   LINE=$((LINE + 1))
   PROGRESS=$((LINE * 100 / SIZ))
   echo -ne "\e[?25l\r\033[K${COLORS[BLUE]}${GLOBAL[BOX3]} ${COLORS[WHITE]}Status   | ${COLORS[BLUE]}${LINE}/${SIZ}/${PROGRESS}%/${PASSWORD}${COLORS[END]}"
-  ssh-keygen -y -f ${KEY} -P ${PASSWORD} &>/dev/null
+  ssh-keygen -y -f "${KEY}" -P "${PASSWORD}" &>/dev/null
   if [ $? -eq 0 ]; then
     echo -e "\n${COLORS[GREEN]}${GLOBAL[BOX1]} ${COLORS[WHITE]}Password | ${COLORS[GREEN]}${PASSWORD}${COLORS[END]}"
     echo -e "${GLOBAL[SEP]}\n"
@@ -98,7 +95,7 @@ while IFS= read -r PASSWORD; do
     tput cnorm
     exit 0
   fi
-done < ${WORDLIST}
+done < "${WORDLIST}"
 echo -e "\n${COLORS[RED]}${GLOBAL[BOX2]} ${COLORS[WHITE]}Fuck!    | ${COLORS[RED]}Password not found${COLROS[END]}"
 echo -e "${SEPARATOR}\n"
 sleep 2

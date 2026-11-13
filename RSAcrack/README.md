@@ -24,6 +24,15 @@ wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal
 RSAcrack -k <KEY> -w <WORDLIST>
 ```
 
+Quote paths containing spaces, for example `RSAcrack -k "my key" -w "my wordlist"`.
+Wordlist entries may contain spaces, and the last entry does not need a trailing
+newline. RSAcrack sets the private key's permissions to `600` before testing it.
+
+### Test
+
+From the repository root, run `bash RSAcrack/test-rsacrack.sh`. The tests use
+`ssh-keygen` to create temporary keys and do not contact any remote system.
+
 > [!WARNING]
 > The cracking speed can vary depending on which tool the key is generated with.
 
