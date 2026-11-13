@@ -40,9 +40,24 @@ wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal
 
 ## Usage
 
+Install `nmap`, `bat` (available as either `bat` or `batcat`), and `ping`
+before running NYXscan. On Debian or Ubuntu, for example:
+
+```sh
+sudo apt install nmap bat iputils-ping
+```
+
+NYXscan reports missing Nmap or Bat dependencies and does not install them.
+Its SYN scan (`nmap -sS`) requires the necessary raw-socket privileges.
+
 ```sh
 NYXscan -t 192.168.1.X
 NYXscan -t domain.nyx
 ```
+
+## Test
+
+From the repository root, run `python3 NYXscan/test_nyxscan.py`. The tests use
+simulated Nmap and Bat commands and do not scan a network.
 
 ---

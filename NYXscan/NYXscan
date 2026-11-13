@@ -74,21 +74,25 @@ function nmapSCAN(){
   echo -e " 💥  Nmap Scan (-sVC)       │ ⬇️"
   echo -e "${SEPARATOR}"
   SCAN=$(nmap -n -Pn -sVC -p${GETPORTS} ${TARGET} -oN ${FOLDER}/${TARGET}.log)
-  /bin/grep -A 500 "PORT" ${FOLDER}/${TARGET}.log | /bin/head -n -3 | /bin/batcat -n -l java
+  /bin/grep -A 500 "PORT" ${FOLDER}/${TARGET}.log | /bin/head -n -3 | "${BAT_COMMAND}" -n -l java
   echo -e "${SEPARATOR}"
   echo -e " 📖  Saved Log              | ${YELLOW}${FOLDER}/${GREEN}${TARGET}.log${END}"
   echo -e "${SEPARATOR}\n"
 }
 
 function dependencies(){
-  which nmap &>/dev/null
-  if [ "$(echo $?)" != "0" ]; then
-    apt install -y nmap &>/dev/null
+  if ! command -v nmap &>/dev/null; then
+    echo "Error: nmap is required. Install it before running NYXscan." >&2
+    return 1
   fi
 
-  which bat &>/dev/null
-  if [ "$(echo $?)" != "0" ]; then
-    apt install -y bat &>/dev/null
+  if command -v batcat &>/dev/null; then
+    BAT_COMMAND=batcat
+  elif command -v bat &>/dev/null; then
+    BAT_COMMAND=bat
+  else
+    echo "Error: bat (or batcat) is required. Install it before running NYXscan." >&2
+    return 1
   fi
 }
 
@@ -100,7 +104,7 @@ done
 
 if [[ -n "${TARGET}" ]]; then
   banner
-  dependencies
+  dependencies || exit 1
   targetIP
   targetPING
   nmapPORTS
