@@ -20,8 +20,14 @@ wget --no-check-certificate -q "https://raw.githubusercontent.com/VulNyx/Arsenal
 
 ## Usage
 
+Install 7-Zip and ensure the `7z` command is available on your `PATH` before
+running ZIPcrack. The script reports a missing dependency without installing it.
+
 ```sh
 ZIPcrack -f <FILE> -w <WORDLIST>
 ```
+
+To check missing-dependency handling, run `python3 ZIPcrack/test_dependency.py`
+from the repository root.
 
 ---
