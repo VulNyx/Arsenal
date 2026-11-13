@@ -11,9 +11,9 @@ readonly SEPARATOR=" ───────────────────�
 trap ctrl_c INT
 
 function dependencies(){
-  which redis-cli &>/dev/null
-  if [ "$(echo $?)" != "0" ]; then
-    apt install -y redis-tools &>/dev/null
+  if ! command -v redis-cli &>/dev/null; then
+    echo "Error: redis-cli is required. Install it before running RBF." >&2
+    return 1
   fi
 }
 
@@ -65,7 +65,7 @@ while getopts ":t:p:w:" ARG; do
 done
 
 if [[ -n "${TARGET}" && -n "${PORT}" && -n "${WORDLIST}" ]]; then
-  dependencies
+  dependencies || exit 1
   banner
   info
 else
